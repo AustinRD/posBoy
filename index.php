@@ -9,6 +9,7 @@
 
 <body>
     <p>Welcome &#60;Valued Customer&#62; to &#60;Copywritten Store Name&#62;!</p>
+    <p>Change</p>
 
 <br/><br/><br/><br/>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cco_DvSzrts?autoplay=1" frameborder="0" allow="ac
