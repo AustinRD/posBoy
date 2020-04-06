@@ -64,7 +64,9 @@ R AvailableStock LIKE '%$searchq%' OR Price LIKE '%$searchq%' OR UPC LIKE '%$sea
 </head>
 <body>
 <br>
-
+<?php
+	echo $_SESSION['permission'];
+?>
 <form action="inventory.php" method="post">
         <input type="text" name="search" placeholder="search"/>
         <input type="submit" value="search"/>

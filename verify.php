@@ -13,9 +13,10 @@ if(isset($_POST['Login']))
                 $query="SELECT * FROM EmployeeDatabase WHERE  EmployeeID='".$_POST['employeeid']."' AND PlaintextPass
 ='".$_POST['password']."'";
                 $result=mysqli_query($db,$query);
-                if(mysqli_fetch_assoc($result)){
+                if($row=mysqli_fetch_assoc($result)){
                         $_SESSION['userid'] = $_POST['employeeid'];
                         $_SESSION['loggedin'] = true;
+			$_SESSION['permission'] = $row['PermissionType'];
                         header("Location:main.php");
                         }
                         else{
