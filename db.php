@@ -85,4 +85,19 @@ function insertRecord(mysqli $db, array $record)
 
     return $db;
 }
+function createTimesheet(mysqli $db, array $record)
+{
+    $sql = "INSERT INTO `TimesheetData` ";
+    $sql.= "(`employeeID`, `actionType`, `date`, `time`) ";
+    $sql.= "VALUES ";
+    $sql.= "(";
+    $sql.= "'".$record['employeeID']."', ";
+    $sql.= "'".$record['actionType']."', ";
+    $sql.= "'".$record['date']."', ";
+    $sql.= "'".$record['time']."'";
+    $sql.= ");";
+
+    $db->query($sql);
+}
+
 ?>
