@@ -13,7 +13,8 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false){
 <div class = "screen">
     <h3>
     <?php
-       echo "Welcome, Employee #" . $_SESSION["userid"];
+       date_default_timezone_set('America/New_York');
+       echo "Welcome, Employee #" . $_SESSION["userid"] . "\t\tTime: " . date('h:i:s');
     ?>
     </h3>
     <p>Successfully Logged In</p>
