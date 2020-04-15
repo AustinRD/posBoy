@@ -18,23 +18,29 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false){
     header("Location: login.php");
 }
 
+#Displaying user id and sign-in status.
 echo '<h3>Welcome, Employee #' . $_SESSION["userid"] . '</h3>';
 echo '<p>Successfully Logged In</p>';
+
+#Creating a single navbar to be used across pages.
+$_SESSION["navbar"] = '<nav>
+    <a href="main.php">Home</a> |
+    <a href="inventory.php">Inventory</a> |
+    <a href="sales.php">Sales<a> |
+    <a href="customerSearch.php">Customer Search<a> |
+    <a href="employeeSearch.php">Employee Search<a> |
+    <a href="checkout.php">Checkout</a>
+</nav>
+<br>';
+
+#Printing the navbar followed by the body of this page.
+echo $_SESSION["navbar"];
 echo '<body>
-        <nav>
-            <a href="main.php">Home</a> |
-            <a href="inventory.php">Inventory</a> |
-            <a href="sales.php">Sales<a> |
-            <a href="customerSearch.php">Customer Search<a> |
-            <a href="EmployeeSearch.php">Employee Search<a> |
-            <a href="checkout.php">Checkout</a>
-        </nav>
-        <br>
-        <form method="post">
+      <form method="post">
             <input type="submit" name="clockin"  value="Clock-In">
             <input type="submit" name="clockout"  value="Clock-Out">
             <input type="button" onclick="location.href = \'logout.php\'" value="Logout">
-        </form>
+      </form>
     </body>';
 
 #Checking if the clockin button was pressed.

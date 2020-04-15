@@ -85,6 +85,24 @@ function insertRecord(mysqli $db, array $record)
 
     return $db;
 }
+
+#Function for sending a new customer's data to the database.
+function createCustomer(mysqli $db, array $record)
+{
+    $sql = "INSERT INTO `CustomerData` "; #Database name
+    $sql.= "(`First_Name`, `Last_Name`, `Email`, `Phone`, `Address`) ";
+    $sql.= "VALUES ";
+    $sql.= "(";
+    $sql.= "'".$record['First_Name']."', ";
+    $sql.= "'".$record['Last_Name']."', ";
+    $sql.= "'".$record['Email']."', ";
+    $sql.= "'".$record['Phone']."', ";
+    $sql.= "'".$record['Address']."'";
+    $sql.= ");";
+
+    $db->query($sql);
+}
+#Function for sending timesheet data to database.
 function createTimesheet(mysqli $db, array $record)
 {
     $sql = "INSERT INTO `TimesheetData` ";
