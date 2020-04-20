@@ -41,7 +41,8 @@ echo '<body>
     <form>
         <h3>[Customer Lookup]</h3>
         <input type="text" placeholder="Customer Name"><br>
-        <input type="text" placeholder="Customer Address"><br>
+        <input type="text" placeholder="Customer Email"><br>
+        <input type="text" placeholder="Customer Phone"><br>
         <input type="submit">
         <input type="button" onclick="closeForm(\'retForm\')" value ="Cancel">
     </form>
