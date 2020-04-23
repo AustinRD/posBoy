@@ -5,9 +5,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false){
         header("Location: login.php");
 }
 
-?>
-
-<?php
 require_once 'config.php';
 require_once 'db.php';
 
@@ -65,10 +62,25 @@ R AvailableStock LIKE '%$searchq%' OR Price LIKE '%$searchq%' OR UPC LIKE '%$sea
 <body>
 <br>
 <?php
-	echo $_SESSION['permission'];
+        if($_SESSION['permission'] == (2 || 3 || 4)){
 ?>
+                <html>
+                        <a href="inventoryManage.php">Inventory Manager</a>
+                </html>
+<?php
+        }
+?>
+
+
 <form action="inventory.php" method="post">
-        <input type="text" name="search" placeholder="search"/>
+        <br>
+	<p>Inventory Query:</p>
+	<input type="text" name="search" placeholder="input"/>
+	<br>
+	<input type="radio"name="searchType"checked="yes"/>All Fields<br/>
+	<input type="radio"name="searchType"/>Name<br/>
+	<input type="radio"name="searchType"/>SKU<br/>
+	<input type="radio"name="searchType"/>UPC<br/>
         <input type="submit" value="search"/>
 </form>
 <?php print("$output"); ?>
