@@ -4,18 +4,13 @@ session_start();
 if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false){
     header("Location: login.php");
 }
-
 ?>
-
 
 <html>
 <link rel="stylesheet" type="text/css" href="mystyle.css">
 <div class = "screen">
-    <h3>
-        [Sales Data Placeholder, Please Look Away]
-    </h3>
-
-        <body>
+    <h3>[Sales Data Placeholder, Please Look Away]</h3>
+    <body>
         <nav>
             <a href="main.php">Home</a> |
             <a href="inventory.php">Inventory</a> |
@@ -25,7 +20,5 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false){
             <a href="checkout.php">Checkout</a>
         </nav>
     </body>
-
-
 </div>
 </html>

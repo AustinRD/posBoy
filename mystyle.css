@@ -1,18 +1,15 @@
-
 body {
   background-color:#000;
   margin:0;
   overflow:hidden;
   padding:0;
 }
-
 table {
   background-color:#000;
   font-family:'Fira Mono', monospace;
   font-size:20px;
   color:#090;
 }
-
 .addText{
   font-family:'Fira Mono', monospace;
   font-size:20px;
@@ -21,7 +18,6 @@ table {
   padding:10vmin;
   width:100vw;
 }
-
 a:link{
   color:#090;
 }
@@ -43,7 +39,6 @@ a:hover{
   padding:10vmin;
   width:100vw;
 }
-
 .screen:before {
   animation:wave 10s infinite ease-in-out;
   content:"";
@@ -54,7 +49,6 @@ a:hover{
   right:0;
   z-index:1;
 }
-
 .screen:after {
   background-image:linear-gradient(transparent, transparent 3px, #222);
   background-size:4px 4px;
@@ -67,12 +61,10 @@ a:hover{
   top:0;
   z-index:2;
 }
-
 p:last-child:after {
   animation:blink 1s infinite;
   content:"_";
 }
-
 input{
   color:#090;
   background-color: transparent;
@@ -87,7 +79,6 @@ input[type=button]
 {
   border:none;
 }
-
 @keyframes colorPulse {
   0%, 100% {
     color:#0c0;
@@ -99,7 +90,6 @@ input[type=button]
     color:#060;
   }
 }
-
 @keyframes wave {
   0% {
     box-shadow:0 -10vh 20vh #0c0;
@@ -116,7 +106,6 @@ input[type=button]
     top:200vh;
   }
 }
-
 @keyframes blink {
   50% {
     opacity:0;

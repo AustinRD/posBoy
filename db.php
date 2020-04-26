@@ -3,20 +3,21 @@
 #Connect - establishes a mysqli connection using the information passed as a parameter.
 function connect($dbHost, $dbName, $dbUsername, $dbPassword)
 {
-                    $db = new mysqli(
+    $db = new mysqli(
         $dbHost,
-                        $dbUsername,
+        $dbUsername,
         $dbPassword,
         $dbName
     );
-                    if($db->connect_error)
+    if($db->connect_error)
     {
-                        die("Cannot connect to database: <br>"
-            . $db->connect_error . "<br>"
-            . $dp->connect_errno
+        die("Cannot connect to database: <br>"
+        . $db->connect_error 
+        . "<br>"
+        . $dp->connect_errno
         );
     }
-                    return $db;
+    return $db;
 }
 
 /**
@@ -45,14 +46,13 @@ function fetchAllFromEmployee(mysqli $db)
     $results = $db->query($sql);
     if($results->num_rows > 0)
     {
-                        while($row = $results->fetch_assoc())
+        while($row = $results->fetch_assoc())
         {
-                            $data[] = $row;
+            $data[] = $row;
         }
     }
-                    return $data;
+    return $data;
 }
-
 function fetchObject(mysqli $db)
 {
     $data = [];
@@ -67,6 +67,8 @@ function fetchObject(mysqli $db)
     }
     return $data;
 }
+
+
 #Inserting a record into the database.
 function insertRecord(mysqli $db, array $record)
 {
@@ -85,7 +87,6 @@ function insertRecord(mysqli $db, array $record)
 
     return $db;
 }
-
 #Function for sending a new customer's data to the database.
 function createCustomer(mysqli $db, array $record)
 {
@@ -117,5 +118,4 @@ function createTimesheet(mysqli $db, array $record)
 
     $db->query($sql);
 }
-
 ?>

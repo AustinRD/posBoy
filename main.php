@@ -44,7 +44,7 @@ echo '<body>
     </body>';
 
 #Checking if the clockin button was pressed.
-#If the button was pressed wr gather the information and
+#If the button was pressed we gather the information and
 #send it to our db function to add it to the TimesheetData table.
 if(isset($_POST['clockin']))
 {
