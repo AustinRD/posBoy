@@ -15,7 +15,9 @@
                 <input type="password" name="password"><br/><br/>
                 <input type="submit" value="Login" name="Login"><br/>
                 </form>
-
+                <form action="https://cs.newpaltz.edu/se/se-s20-g08/posBoy/">
+                <input type="submit" value="Return">
+                </form>
                 <div>
                 <?php
                         if(@$_GET['ErrorMess']==true){
