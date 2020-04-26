@@ -14,6 +14,8 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false)
 }
 
 date_default_timezone_set("America/New_York");
+$customer = $_SESSION['customer'];
+
 
 echo '<head><h3>[Customer Checkout]</h3>'
     . $_SESSION['navbar']
@@ -29,15 +31,20 @@ echo '<body>
         <th>UPC</th>
         <th>Quantity</th>
     </tr>
-    </table>
+    </table>';
 
-    <table style="width:45%; float:right;" border="1">
+echo '<table style="width:45%; float:right;" border="1">
     <tr>
         <th>Customer</th>
     </tr>
-    </table>
+    <tr>
+    <td>'
+    . $customer['First_Name']
+    . '</td>
+    </tr>';
+
+echo '</table>
     </div>
- 
     <div>
     <table style="margin-top:1em; width:45%; float:left;" border="1">
     <th>Item Search</th>
@@ -61,6 +68,7 @@ echo '<body>
     <input type="button" onclick="" value="Cancel Checkout">
     </form>
     </body>';
+
 ?>
 
 </div>

@@ -22,7 +22,10 @@ echo '<body>
 <p>Will this be a New or Returning Customer?</p>
 <input type ="button" onclick="openForm(\'newForm\')" value ="New">
 <input type ="button" onclick="openForm(\'retForm\')" value ="Returning">
-<input type ="button" onclick="location.href = \'sale.php\'" value ="Skip">
+
+<form method="post">
+    <input type ="submit" name="skip" value ="Skip">
+</form>
 
 <div class ="form-popup" id ="newForm" style="display:none;">
     <form method="post">
@@ -62,7 +65,21 @@ if(isset($_POST['create']))
     ];
     createCustomer($db, $customerData);
 
-    echo "<br>New customer created.<br>";
+    $_SESSION['customer'] = $customerData;
+    header("Location: sale.php");
+}
+#If the customer doesn't want to give their information, reciept is stored in
+#a generic guest account.
+if(isset($_POST['skip']))
+{
+    $_SESSION['customer'] = [
+        'First_Name' => "Guest",
+        'Last_Name' => "Customer",
+        'Email' => "store@store.com",
+        'Phone' => "(000)-000-000",
+        'Address' => "1 Hawk Drive, Newpaltz NY"
+        ];
+    header("Location: sale.php");
 }
 
 ?>
@@ -78,5 +95,4 @@ function closeForm(formName)
 {
     document.getElementById(formName).style.display = "none";
 }
-
 </script>
