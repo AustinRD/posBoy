@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once('tempLogConn.php');
-
-
+require_once('config.php');
+require_once('db.php');
+$db = connect(DB_HOST,DB_NAME,DB_USERNAME,DB_PASSWORD);
 
 if(isset($_POST['Login']))
 {
