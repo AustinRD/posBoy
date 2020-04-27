@@ -20,10 +20,10 @@ echo '<head><h3>[Customer Checkout]</h3>'
 #Body of the page
 echo '<body>
 <p>Will this be a New or Returning Customer?</p>
-<input type ="button" onclick="openForm(\'newForm\')" value ="New">
-<input type ="button" onclick="openForm(\'retForm\')" value ="Returning">
 
 <form method="post">
+    <input type ="button" onclick="openForm(\'newForm\')" value ="New">
+    <input type ="button" onclick="openForm(\'retForm\')" value ="Returning">
     <input type ="submit" name="skip" value ="Skip">
 </form>
 
@@ -35,18 +35,18 @@ echo '<body>
         <input type ="email" name="email" placeholder="E-mail" required><br>
         <input type ="text" name="phone" placeholder="Phone" required><br>
         <input type ="text" name="address" placeholder ="Address" required><br>
-        <input type ="submit" name="create">
+        <input type ="submit" name="create" value="Create">
         <input type ="button" onclick="closeForm(\'newForm\')" value="Cancel">
     </form>
 </div>
 
 <div class ="form-popup" id="retForm" style="display:none;">
-    <form>
+    <form method="post">
         <h3>[Customer Lookup]</h3>
-        <input type="text" placeholder="Customer Name"><br>
-        <input type="text" placeholder="Customer Email"><br>
-        <input type="text" placeholder="Customer Phone"><br>
-        <input type="submit">
+        <input type="text" name="custName" placeholder="Customer Name"><br>
+        <input type="text" name="custEmail" placeholder="Customer Email"><br>
+        <input type="text" name="custPhone" placeholder="Customer Phone"><br>
+        <input type="submit" name="custSearch" value="Search">
         <input type="button" onclick="closeForm(\'retForm\')" value ="Cancel">
     </form>
 </div>
@@ -81,7 +81,29 @@ if(isset($_POST['skip']))
         ];
     header("Location: sale.php");
 }
-
+#If customer search is used to find a customer.
+#Searches based on first field entered.
+if(isset($_POST['custSearch']))
+{
+    $db = connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+    if($_POST['custName'] != "")
+    {
+        $custName = explode(" ", $_POST['custName']);
+        findCustomerByName($db, $custName);
+    }
+    else if($_POST['custEmail'] != "")
+    {
+        findCustomerByEmail($db, $_POST['custEmail']);
+    }
+    else if($_POST['custPhone'] != "")
+    {
+        findCustomerByPhone($db, $_POST['custPhone']);
+    }
+    else
+    {
+        echo "Please enter some search criteria.";
+    }
+}
 ?>
 </div>
 </html>

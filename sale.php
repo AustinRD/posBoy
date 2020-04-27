@@ -64,10 +64,19 @@ echo '</table>
     </table>
     </div>
 
-    <form style="margin-top:1em; float:right";>
-    <input type="button" onclick="" value="Cancel Checkout">
+    <form method="post" style="margin-top:1em; float:right";>
+        <input type="submit" name="cancelCheckout" value="Cancel Checkout">
     </form>
     </body>';
+
+#If the transaction must be canceled before reaching the payment page.
+#Clears the data in the session variable related to the customer previously
+#checking out.
+if(isset($_POST['cancelCheckout']))
+{
+    $customer = null;
+    header("Location: checkout.php");
+}
 
 ?>
 
