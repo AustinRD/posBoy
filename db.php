@@ -118,4 +118,30 @@ function createTimesheet(mysqli $db, array $record)
 
     $db->query($sql);
 }
+
+function FindCustomerByName(mysqli $db, array $customerName)
+{
+$sql = "SELECT * FROM `CustomerData` WHERE `First_Name` LIKE '";
+$sql.= $customerName[0] . "'";
+$sql.= "AND `Last_Name` LIKE '";
+$sql.= $customerName[1] . "'";
+
+$db->query($sql);
+}
+
+function FindCustomerByEmail(mysqli $db, string $Email)
+{
+$sql = "SELECT * FROM `CustomerData` WHERE `Email` LIKE '";
+$sql.= $Email[0] . "'";
+
+$db->query($sql);
+}
+
+function FindCustomerByPhone(mysqli $db, string $Phone)
+{
+$sql = "SELECT * FROM `CustomerData` WHERE `Phone` LIKE '";
+$sql.= $Phone[0] . "'";
+
+$db->query($sql);
+}
 ?>
