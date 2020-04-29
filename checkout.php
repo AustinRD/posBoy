@@ -89,7 +89,21 @@ if(isset($_POST['custSearch']))
     if($_POST['custName'] != "")
     {
         $custName = explode(" ", $_POST['custName']);
-        findCustomerByName($db, $custName);
+	$customerList = findCustomerByName($db, $custName);
+	$numResults = mysqli_num_rows($customerList);
+
+	if($numResults > 0)
+	{
+            while($row = mysqli_fetch_array($customerList))
+	    {
+                $custFname = $row['First_Name'];
+		echo "<p>". $custFname ."<p>";
+	    }
+	}
+        else
+	{
+	    echo "No results.";
+	}
     }
     else if($_POST['custEmail'] != "")
     {

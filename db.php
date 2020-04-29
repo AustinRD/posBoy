@@ -119,29 +119,44 @@ function createTimesheet(mysqli $db, array $record)
     $db->query($sql);
 }
 
-function FindCustomerByName(mysqli $db, array $customerName)
-{
-$sql = "SELECT * FROM `CustomerData` WHERE `First_Name` LIKE '";
-$sql.= $customerName[0] . "'";
-$sql.= "AND `Last_Name` LIKE '";
-$sql.= $customerName[1] . "'";
+function findCustomerByName(mysqli $db, array $customerName)
+{  
+    #If the user has only entered a first or last name.
+    if(sizeof($customerName) == 1)
+    {
+        $sql = "SELECT * FROM `CustomerData` WHERE `First_Name` LIKE '%";
+        $sql.= $customerName[0] . "%'";
+        $sql.= "OR `Last_Name` LIKE '%";
+        $sql.= $customerName[0] . "%'";
 
-$db->query($sql);
+        return $db->query($sql);
+    }
+    #If the user entered both a first and last name.
+    else if(sizeof($customerName) > 1)
+    {
+        $sql = "SELECT * FROM `CustomerData` WHERE `First_Name` LIKE '%";
+        $sql.= $customerName[0] . "%'";
+        $sql.= "AND `Last_Name` LIKE '%";
+        $sql.= $customerName[1] . "%'";
+        
+        return $db->query($sql);
+    }
 }
 
-function FindCustomerByEmail(mysqli $db, string $Email)
+function findCustomerByEmail(mysqli $db, string $email)
 {
-$sql = "SELECT * FROM `CustomerData` WHERE `Email` LIKE '";
-$sql.= $Email[0] . "'";
+    $sql = "SELECT * FROM `CustomerData` WHERE `Email` LIKE '";
+    $sql.= $email[0] . "'";
 
-$db->query($sql);
+    return $db->query($sql);
 }
 
-function FindCustomerByPhone(mysqli $db, string $Phone)
+function findCustomerByPhone(mysqli $db, string $phone)
 {
-$sql = "SELECT * FROM `CustomerData` WHERE `Phone` LIKE '";
-$sql.= $Phone[0] . "'";
+    $sql = "SELECT * FROM `CustomerData` WHERE `Phone` LIKE '";
+    $sql.= $phone[0] . "'";
 
-$db->query($sql);
+    return $db->query($sql);
 }
+
 ?>
