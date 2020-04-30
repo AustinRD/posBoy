@@ -43,9 +43,11 @@ echo '<body>
 <div class ="form-popup" id="retForm" style="display:none;">
     <form method="post">
         <h3>[Customer Lookup]</h3>
-        <input type="text" name="custName" placeholder="Customer Name"><br>
-        <input type="text" name="custEmail" placeholder="Customer Email"><br>
-        <input type="text" name="custPhone" placeholder="Customer Phone"><br>
+	<p>Select a search method:</p>
+        <input type="radio" name="searchMethod" value=1>Name<br>
+        <input type="radio" name="searchMethod" value=2>Email<br>
+        <input type="radio" name="searchMethod" value=3>Phone<br><br>
+	<input type="text" name="customer" placeholder="Customer"><br>
         <input type="submit" name="custSearch" value="Search">
         <input type="button" onclick="closeForm(\'retForm\')" value ="Cancel">
     </form>
@@ -83,12 +85,21 @@ if(isset($_POST['skip']))
 }
 #If customer search is used to find a customer.
 #Searches based on first field entered.
-if(isset($_POST['custSearch']))
+if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 {
     $db = connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
-    if($_POST['custName'] != "")
+
+    echo '<table style="width:60%;" border="1">
+	<tr>
+	    <th>Customer</th>
+	    <th>Phone</th>
+	    <th>Email</th>
+	    <th>Choice</th>
+	</tr>';
+
+    if($_POST['searchMethod'] == 1)
     {
-        $custName = explode(" ", $_POST['custName']);
+        $custName = explode(" ", $_POST['customer']);
 	$customerList = findCustomerByName($db, $custName);
 	$numResults = mysqli_num_rows($customerList);
 
@@ -96,8 +107,13 @@ if(isset($_POST['custSearch']))
 	{
             while($row = mysqli_fetch_array($customerList))
 	    {
-                $custFname = $row['First_Name'];
-		echo "<p>". $custFname ."<p>";
+                $row['First_Name'];
+		echo "<tr>"
+		    . "<td>" . $row['First_Name'] . " " . $row['Last_Name'] . "</td>"
+		    . "<td>" . $row['Phone'] . "</td>"
+		    . "<td>" . $row['Email'] . "</td>"
+		    . "<td>" . "<input type='button' name='select' value='[Select]'>" . "</td>"
+		    . "</tr>";
 	    }
 	}
         else
@@ -105,17 +121,41 @@ if(isset($_POST['custSearch']))
 	    echo "No results.";
 	}
     }
-    else if($_POST['custEmail'] != "")
+    else if($_POST['searchMethod'] == 2)
     {
-        findCustomerByEmail($db, $_POST['custEmail']);
+        $customerList = findCustomerByEmail($db, $_POST['customer']);
+	$numResults = mysqli_num_rows($customerList);
+
+	if($numResults > 0)
+	{
+	    while($row = mysqli_fetch_array($customerList))
+	    {
+		$custFname = $row['First_Name'];
+		echo "<p>". $custFname . "<p>";
+	    }
+	}
+	else
+	{
+	    echo "No results.";
+	}
     }
-    else if($_POST['custPhone'] != "")
+    else if($_POST['searchMethod'] == 3)
     {
-        findCustomerByPhone($db, $_POST['custPhone']);
-    }
-    else
-    {
-        echo "Please enter some search criteria.";
+        $customerList = findCustomerByPhone($db, $_POST['customer']);
+	$numResults = mysqli_num_rows($customerList);
+
+	if($numResults > 0)
+	{
+	    while($row = mysqli_fetch_array($customerList))
+	    {
+		$custFname = $row['First_Name'];
+		echo "<p>". $custFname . "<p>";
+	    }
+	}
+	else
+	{
+	    echo "No results.";
+	}
     }
 }
 ?>

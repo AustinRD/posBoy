@@ -146,7 +146,7 @@ function findCustomerByName(mysqli $db, array $customerName)
 function findCustomerByEmail(mysqli $db, string $email)
 {
     $sql = "SELECT * FROM `CustomerData` WHERE `Email` LIKE '";
-    $sql.= $email[0] . "'";
+    $sql.= $email . "'";
 
     return $db->query($sql);
 }
@@ -154,7 +154,7 @@ function findCustomerByEmail(mysqli $db, string $email)
 function findCustomerByPhone(mysqli $db, string $phone)
 {
     $sql = "SELECT * FROM `CustomerData` WHERE `Phone` LIKE '";
-    $sql.= $phone[0] . "'";
+    $sql.= $phone . "'";
 
     return $db->query($sql);
 }
