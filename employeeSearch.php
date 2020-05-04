@@ -23,7 +23,9 @@ $search_result=mysqli_query($db, "SELECT * FROM EmployeeDatabase WHERE EmployeeI
 else{
 $search_result=mysqli_query($db, "SELECT * FROM EmployeeDatabase");
 }
+
 ?>
+
 
 <html>
 <link rel="stylesheet" type="text/css" href="mystyle.css">
@@ -40,7 +42,7 @@ echo '<head><h3>[Employee Search]</h3>'
 
 <form action="employeeSearch.php" method="post">
 <input type="text" name="valueToSearch" placeholder="Value To Search"><br><br>
-<input type="submit" name="search" value="filter"><br><br>
+<input type="submit" name="search" value="search">   
 <table border='1'>
 <tr>
 <th>EmployeeID</th>

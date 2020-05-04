@@ -105,9 +105,9 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 
 	if($numResults > 0)
 	{
-            while($row = mysqli_fetch_array($customerList))
+	    while($row = mysqli_fetch_array($customerList))
 	    {
-                $row['First_Name'];
+		$row['First_Name'];
 		echo "<tr>"
 		    . "<td>" . $row['First_Name'] . " " . $row['Last_Name'] . "</td>"
 		    . "<td>" . $row['Phone'] . "</td>"
@@ -130,8 +130,9 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 	{
 	    while($row = mysqli_fetch_array($customerList))
 	    {
-		$custFname = $row['First_Name'];
-		echo "<p>". $custFname . "<p>";
+		$row['First_Name'];                                                                                                  echo "<tr>"                                                                                                              . "<td>" . $row['First_Name'] . " " . $row['Last_Name'] . "</td>"
+                    . "<td>" . $row['Phone'] . "</td>"                                                                                   . "<td>" . $row['Email'] . "</td>"                                                                                   . "<td>" . "<input type='button' name='select' value='[Select]'>" . "</td>"
+                    . "</tr>";
 	    }
 	}
 	else
@@ -148,8 +149,9 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 	{
 	    while($row = mysqli_fetch_array($customerList))
 	    {
-		$custFname = $row['First_Name'];
-		echo "<p>". $custFname . "<p>";
+	        $row['First_Name'];                                                                                                  echo "<tr>"                                                                                                              . "<td>" . $row['First_Name'] . " " . $row['Last_Name'] . "</td>"
+                    . "<td>" . $row['Phone'] . "</td>"                                                                                   . "<td>" . $row['Email'] . "</td>"                                                                                   . "<td>" . "<input type='button' name='select' value='[Select]'>" . "</td>"
+                    . "</tr>";
 	    }
 	}
 	else
