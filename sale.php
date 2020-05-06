@@ -35,12 +35,6 @@ echo '<body>
 	<td><input type="button" onclick="addQty(' . ++$row . ')" value="[ + ]">1<input type="button" onclick="subQty(' . $row . ')" value="[ - ]"></td>
 	<td>$0.99</td>
     </tr>
-    <tr>
-	<td>Another one</td>
-    </tr>
-    <tr>
-	<td>Another one</td>
-    </tr>
     </table>
     <table style="width:25%; float:right;" border="1">
     <tr>
@@ -56,9 +50,9 @@ echo '<body>
 #Second div for the bottom two tables - Item Search and Total
 echo '<div style="display:table; width:100%; margin-top:1em; margin-bottom:1em;">
     <table style="margin-top:1em; width:70%; float:left;" border="1">
-    <th>Item Search</th>
+    <th colspan=4>Item Search</th>
     <tr>
-        <td>
+        <td colspan=4>
         <form method="post">
             <input type="text" name="product" placeholder="Product (Name or SKU)">
             <br>
@@ -67,31 +61,31 @@ echo '<div style="display:table; width:100%; margin-top:1em; margin-bottom:1em;"
         </td>
     </tr>';
 
-#if(isset($_POST['search']))
-#{
-#    $db = connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
-#    $inventoryList = findInventoryItem($db, $item);
-#    $numResults = mysqli_num_rows($inventoryList);
-#
-#    if($numResults > 0)
-#    {
-#	while($row = mysqli_fetch_array($customerList))
-#	{
-#	    echo "<tr>"
-#		. "<td>" . $row['ProductName'] . "</td>"
-#		. "<td>" . $row['SKU'] . "</td>"
-#		. "<td>" . "<input type='button' name='addQty' value='+'>" 
-#		         . "1" . "input type='button' name='subQty' value='-'>"
-#		. "<td>" . $row['Price'] . "</td>"
-#		. "<td>" . "<input type='button' name='select' value='[Select]'>" . "</td>"
-#		. "</tr>";
-#	}
-#    }
-#    else
-#    {
-#        echo "<tr>No Results Found</tr>";
-#    }
-#}
+if(isset($_POST['search']))
+{
+    $db = connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+    $item = $_POST['product'];
+    $inventoryList = findProduct($db, $item);
+    $numResults = mysqli_num_rows($inventoryList);
+
+    if($numResults > 0)
+    {
+	echo "<tr><th>Product</th><th>SKU</th><th>Unit Price</th><th>Option</th></tr>";
+	while($row = mysqli_fetch_array($inventoryList))
+	{
+	    echo "<tr>"
+		. "<td>" . $row['ProductName'] . "</td>"
+		. "<td>" . $row['SKU'] . "</td>"
+		. "<td>" . $row['Price'] . "</td>"
+		. "<td>" . "<input type='button' name='select' value='[ + ]'>" . "</td>"
+		. "</tr>";
+	}
+    }
+    else
+    {
+        echo "<tr>No Results Found</tr>";
+    }
+}
 
 echo '</table>
 
@@ -134,11 +128,21 @@ function subQty(row)
 {
     var x = document.getElementById("cart").rows[row].cells;
     currentQuantity = parseInt(x[2].innerText);
-    x[2].innerHTML = "<input type='button' onclick='addQty(" + row + ")' value='[ + ]'>" + --currentQuantity + "<input type='button' onclick='subQty(" + row + ")' value='[ - ]'>";
-    updateTotal();
+    if(currentQuantity > 0)
+    {
+        x[2].innerHTML = "<input type='button' onclick='addQty(" + row + ")' value='[ + ]'>" + --currentQuantity + "<input type='button' onclick='subQty(" + row + ")' value='[ - ]'>";
+        updateTotal();
+    }
 }
 function updateTotal()
 {
+    var table = document.getElementById("cart").rows;
+    var tableLen = table.length;
+
+    if(tableLen > 1)
+    {
+
+    }
 
 }
 </script>

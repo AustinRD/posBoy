@@ -21,55 +21,11 @@ function connect($dbHost, $dbName, $dbUsername, $dbPassword)
 }
 
 /**
- * Test function to get all records from Customer Data in the database.
+ * Function for inserting new customer data into the database..
  * @param mysqli $db
-   @return array
+ * @param array $record
+ * @return array
 */
-function fetchAllFromCustomer(mysqli $db)
-{
-    $data = [];
-    $sql = 'SELECT * FROM `CustomerData`';
-    $results = $db->query($sql);
-    if($results->num_rows > 0)
-    {
-        while($row = $results->fetch_assoc())
-        {
-            $data[] = $row;
-        }
-    }
-    return $data;
-}
-function fetchAllFromEmployee(mysqli $db)
-{
-    $data = [];
-    $sql = 'SELECT * FROM `EmployeeDatabase`';
-    $results = $db->query($sql);
-    if($results->num_rows > 0)
-    {
-        while($row = $results->fetch_assoc())
-        {
-            $data[] = $row;
-        }
-    }
-    return $data;
-}
-function fetchObject(mysqli $db)
-{
-    $data = [];
-    $sql = 'SELECT * FROM `CustomerData`';
-    $results = $db->query($sql);
-    if($results->num_rows > 0)
-    {
-        while($row = $results->fetch_object())
-        {
-            $data[] = $row;
-        }
-    }
-    return $data;
-}
-
-
-#Inserting a record into the database.
 function insertRecord(mysqli $db, array $record)
 {
     $sql = "INSERT INTO `CustomerData` "; #Database name
@@ -158,5 +114,14 @@ function findCustomerByPhone(mysqli $db, string $phone)
 
     return $db->query($sql);
 }
+#Function to find product at sale.
+function findProduct(mysqli $db, string $product)
+{
+    $sql = "SELECT * FROM `Inventory` WHERE `ProductName` LIKE '%";
+    $sql.= $product . "%' OR ";
+    $sql.= "`SKU` LIKE '%";
+    $sql.= $product . "%'";
 
+    return $db->query($sql);
+}
 ?>
