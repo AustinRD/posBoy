@@ -17,49 +17,67 @@ date_default_timezone_set("America/New_York");
 $customer = $_SESSION['customer'];
 
 
-echo '<head><h3>[Customer Checkout]</h3>'
-    . $_SESSION['navbar']
-    . '</head>';
+echo '<head><h3>[Customer Checkout]</h3>';
 
 #HTML for the page layout.
 echo '<body>
     <div>
-    <table style="width:45%; float:left;" border="1">
+    <table style="width:70%; float:left;" border="1">
     <tr>
         <th>Product</th>
         <th>SKU</th>
-        <th>UPC</th>
         <th>Quantity</th>
+	<th>Unit Price</th>
     </tr>
     </table>';
 
-echo '<table style="width:45%; float:right;" border="1">
+echo '<table style="width:25%; float:right;" border="1">
     <tr>
         <th>Customer</th>
     </tr>
     <tr>
-    <td>'
-    . $customer['First_Name']
-    . '</td>
+    <td>' . $customer['First_Name'] . " " . $customer['Last_Name'] . '</td>
     </tr>';
 
 echo '</table>
     </div>
     <div>
-    <table style="margin-top:1em; width:45%; float:left;" border="1">
+    <table style="margin-top:1em; width:70%; float:left;" border="1">
     <th>Item Search</th>
     <tr>
         <td>
         <form method="post">
-            <input type="text" name="product" placeholder="Product (Name, SKU, or UPC)">
-            <br> 
-            <input type="submit" name="search" value="Search">
+            <input type="text" name="product" placeholder="Product (Name or SKU)">
+            <br>
+	    <input type="submit" name="search" value="Search">
         </form>
         </td>
-    </tr>
-    </table>
+    </tr>';
 
-    <table style="margin-top:1em; width:45%; float:right;" border="1">
+#if(isset($_POST['search']))
+#{
+#    $inventoryList = findInventoryItem($db, $item);
+#    $numResults = mysqli_num_rows($inventoryList);
+#
+#    if($numResults > 0)
+#    {
+#	while($row = mysqli_fetch_array($customerList))
+#	{
+#	    echo "<tr>"
+#		. "<td>" . $row[''] . "</td>"
+#		. "<td>" . $row[''] . "</td>"
+#		. "<td>" . "<input type='button' name='addQty' value='+'>" 
+#		         . "1" . "input type='button' name='subQty' value='-'>"
+#		. "<td>" . $row[''] . "</td>"
+#		. "<td>" . "<input type='button' name='select' value='[Select]'>" . "</td>"
+#		. "</tr>";
+#	}
+#    }
+#}
+
+echo '</table>
+
+    <table style="margin-top:1em; width:25%; float:right;" border="1">
     <th>Total</th>
     </table>
     </div>
@@ -74,7 +92,7 @@ echo '</table>
 #checking out.
 if(isset($_POST['cancelCheckout']))
 {
-    $customer = null;
+    $_SESSION['customer'] = null;
     header("Location: checkout.php");
 }
 

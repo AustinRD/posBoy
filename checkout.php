@@ -107,13 +107,16 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 	{
 	    while($row = mysqli_fetch_array($customerList))
 	    {
-		$row['First_Name'];
-		echo "<tr>"
-		    . "<td>" . $row['First_Name'] . " " . $row['Last_Name'] . "</td>"
+		echo "<tr><form method='post'>"
+		    . "<td><label>" . $row['First_Name'] . " " . $row['Last_Name'] . "</label></td>"
+		    	. "<input type='hidden' name='fname' value='" . $row['First_Name'] . "'>"
+		        . "<input type='hidden' name='lname' value='" . $row['Last_Name'] . "'>"
 		    . "<td>" . $row['Phone'] . "</td>"
+			. "<input type='hidden' name='phone' value='" . $row['Phone'] . "'>"
 		    . "<td>" . $row['Email'] . "</td>"
-		    . "<td>" . "<input type='button' name='select' value='[Select]'>" . "</td>"
-		    . "</tr>";
+			. "<input type='hidden' name='email' value='" . $row['Email'] . "'>"
+		    . "<td>" . "<input type='submit' name='select' value='[Select]'>" . "</td>"
+		    . "</form></tr>";
 	    }
 	}
         else
@@ -130,9 +133,16 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 	{
 	    while($row = mysqli_fetch_array($customerList))
 	    {
-		$row['First_Name'];                                                                                                  echo "<tr>"                                                                                                              . "<td>" . $row['First_Name'] . " " . $row['Last_Name'] . "</td>"
-                    . "<td>" . $row['Phone'] . "</td>"                                                                                   . "<td>" . $row['Email'] . "</td>"                                                                                   . "<td>" . "<input type='button' name='select' value='[Select]'>" . "</td>"
-                    . "</tr>";
+		echo "<tr><form method='post'>"
+                    . "<td><label>" . $row['First_Name'] . " " . $row['Last_Name'] . "</label></td>"
+                        . "<input type='hidden' name='fname' value='" . $row['First_Name'] . "'>"
+                        . "<input type='hidden' name='lname' value='" . $row['Last_Name'] . "'>"
+                    . "<td>" . $row['Phone'] . "</td>"
+                        . "<input type='hidden' name='phone' value='" . $row['Phone'] . "'>"
+                    . "<td>" . $row['Email'] . "</td>"
+                        . "<input type='hidden' name='email' value='" . $row['Email'] . "'>"
+                    . "<td>" . "<input type='submit' name='select' value='[Select]'>" . "</td>"
+                    . "</form></tr>";
 	    }
 	}
 	else
@@ -149,9 +159,16 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 	{
 	    while($row = mysqli_fetch_array($customerList))
 	    {
-	        $row['First_Name'];                                                                                                  echo "<tr>"                                                                                                              . "<td>" . $row['First_Name'] . " " . $row['Last_Name'] . "</td>"
-                    . "<td>" . $row['Phone'] . "</td>"                                                                                   . "<td>" . $row['Email'] . "</td>"                                                                                   . "<td>" . "<input type='button' name='select' value='[Select]'>" . "</td>"
-                    . "</tr>";
+	        echo "<tr><form method='post'>"
+                    . "<td><label>" . $row['First_Name'] . " " . $row['Last_Name'] . "</label></td>"
+                        . "<input type='hidden' name='fname' value='" . $row['First_Name'] . "'>"
+                        . "<input type='hidden' name='lname' value='" . $row['Last_Name'] . "'>"
+                    . "<td>" . $row['Phone'] . "</td>"
+                        . "<input type='hidden' name='phone' value='" . $row['Phone'] . "'>"
+                    . "<td>" . $row['Email'] . "</td>"
+                        . "<input type='hidden' name='email' value='" . $row['Email'] . "'>"
+                    . "<td>" . "<input type='submit' name='select' value='[Select]'>" . "</td>"
+                    . "</form></tr>";
 	    }
 	}
 	else
@@ -159,6 +176,16 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 	    echo "No results.";
 	}
     }
+}
+if(isset($_POST['select']))
+{
+    $_SESSION['customer'] = [
+	'First_Name' => $_POST['fname'],
+	'Last_Name' => $_POST['lname'],
+	'Email' => $_POST['email'],
+	'Phone' => $_POST['phone']
+    ];
+    header("Location: sale.php");
 }
 ?>
 </div>
