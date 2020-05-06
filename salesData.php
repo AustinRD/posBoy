@@ -1,7 +1,7 @@
 <html>
 <link rel="stylesheet" type="text/css" href="mystyle.css">
 <div class = "screen">
-<h3>[Information]</h3>
+<h3>[Data]</h3>
   <?php
   session_start();
 
@@ -30,7 +30,7 @@
     <br>
     <br>';
   }
-        echo'<a href="taxInfo.php">Tax Information</a>
+        echo'<a href="https://www.tax.ny.gov/forms/withholding_cur_forms.htm"target="_blank">Tax Information</a>
         <br>
         <br>
         </body>';
@@ -41,13 +41,10 @@
     <br>
     <br>
     <p>Manager Settings</p>
-    <a href="newEmployee.php">New Employee</a>
+    <a href="employeeManage.php">Employee Manager</a>
     <br>
     <br>
-    <a href="timeSheetSearch.php">View Timesheets</a>
-    <br>
-    <br>
-    <a href="newPassword.php">Change Password</a>'; 
+    <a href="timeSheetSearch.php">View Timesheets</a>';
   	}
 
   ?>

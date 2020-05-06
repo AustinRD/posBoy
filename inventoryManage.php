@@ -1,7 +1,7 @@
 <html>
 <link rel="stylesheet" type="text/css" href="mystyle.css">
 <div class = "screen">
-<h3>[Inventory Creator]</h3>
+<h3>[Inventory Manager]</h3>
   <?php
   session_start();
 
