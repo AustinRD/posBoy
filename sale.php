@@ -16,32 +16,45 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false)
 date_default_timezone_set("America/New_York");
 $customer = $_SESSION['customer'];
 
-
 echo '<head><h3>[Customer Checkout]</h3>';
 
-#HTML for the page layout.
+$row = 0;
+#First div for the product information and customer data.
 echo '<body>
-    <div>
-    <table style="width:70%; float:left;" border="1">
+    <div style="display:table; width:100%; margin-top:1em; margin-bottom:1em;">
+    <table id="cart" style="width:70%; float:left;" border="1">
     <tr>
         <th>Product</th>
         <th>SKU</th>
         <th>Quantity</th>
 	<th>Unit Price</th>
     </tr>
-    </table>';
-
-echo '<table style="width:25%; float:right;" border="1">
+    <tr>
+        <td>Sample Product</td>
+	<td>000000001</td>
+	<td><input type="button" onclick="addQty(' . ++$row . ')" value="[ + ]">1<input type="button" onclick="subQty(' . $row . ')" value="[ - ]"></td>
+	<td>$0.99</td>
+    </tr>
+    <tr>
+	<td>Another one</td>
+    </tr>
+    <tr>
+	<td>Another one</td>
+    </tr>
+    </table>
+    <table style="width:25%; float:right;" border="1">
     <tr>
         <th>Customer</th>
     </tr>
     <tr>
-    <td>' . $customer['First_Name'] . " " . $customer['Last_Name'] . '</td>
-    </tr>';
+    <td>' . $customer['First_Name'] . ' ' . $customer['Last_Name'] . '</td>
+    </tr>
+    </table>
+    </div>';
 
-echo '</table>
-    </div>
-    <div>
+
+#Second div for the bottom two tables - Item Search and Total
+echo '<div style="display:table; width:100%; margin-top:1em; margin-bottom:1em;">
     <table style="margin-top:1em; width:70%; float:left;" border="1">
     <th>Item Search</th>
     <tr>
@@ -56,6 +69,7 @@ echo '</table>
 
 #if(isset($_POST['search']))
 #{
+#    $db = connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
 #    $inventoryList = findInventoryItem($db, $item);
 #    $numResults = mysqli_num_rows($inventoryList);
 #
@@ -64,25 +78,32 @@ echo '</table>
 #	while($row = mysqli_fetch_array($customerList))
 #	{
 #	    echo "<tr>"
-#		. "<td>" . $row[''] . "</td>"
-#		. "<td>" . $row[''] . "</td>"
+#		. "<td>" . $row['ProductName'] . "</td>"
+#		. "<td>" . $row['SKU'] . "</td>"
 #		. "<td>" . "<input type='button' name='addQty' value='+'>" 
 #		         . "1" . "input type='button' name='subQty' value='-'>"
-#		. "<td>" . $row[''] . "</td>"
+#		. "<td>" . $row['Price'] . "</td>"
 #		. "<td>" . "<input type='button' name='select' value='[Select]'>" . "</td>"
 #		. "</tr>";
 #	}
+#    }
+#    else
+#    {
+#        echo "<tr>No Results Found</tr>";
 #    }
 #}
 
 echo '</table>
 
     <table style="margin-top:1em; width:25%; float:right;" border="1">
-    <th>Total</th>
+    <th colspan="2">Total</th>
+    <tr><td>Subtotal:</td><td>$0.00</td></tr>
+    <tr><td>Tax:     </td><td>$0.00</td></tr>
+    <tr><td>Total:   </td><td>$0.00</td></tr>
     </table>
     </div>
 
-    <form method="post" style="margin-top:1em; float:right";>
+    <form method="post" style="margin-top:1em; float:right;">
         <input type="submit" name="cancelCheckout" value="Cancel Checkout">
     </form>
     </body>';
@@ -101,3 +122,23 @@ if(isset($_POST['cancelCheckout']))
 </div>
 </html>
 
+<script>
+function addQty(row)
+{
+    var x = document.getElementById("cart").rows[row].cells;
+    currentQuantity = parseInt(x[2].innerText);
+    x[2].innerHTML = "<input type='button' onclick='addQty(" + row + ")' value='[ + ]'>" + ++currentQuantity + "<input type='button' onclick='subQty(" + row + ")' value='[ - ]'>";
+    updateTotal();
+}
+function subQty(row)
+{
+    var x = document.getElementById("cart").rows[row].cells;
+    currentQuantity = parseInt(x[2].innerText);
+    x[2].innerHTML = "<input type='button' onclick='addQty(" + row + ")' value='[ + ]'>" + --currentQuantity + "<input type='button' onclick='subQty(" + row + ")' value='[ - ]'>";
+    updateTotal();
+}
+function updateTotal()
+{
+
+}
+</script>
