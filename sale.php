@@ -119,6 +119,7 @@ if(isset($_POST['cancelCheckout']))
 </html>
 
 <script>
+//Global variable for tracking table row number.
 var cartItems = 1;
 function addToCart(row)
 {
@@ -131,6 +132,7 @@ function addToCart(row)
     var sku = currentRow[1].innerText;
     var unitPrice = currentRow[2].innerText;
     var quantity = "<input type='button' onclick='addQty(" +  ++cartItems + ")' value='[ + ]'>1<input type='button' onclick='subQty(" + cartItems + ")' value='[ - ]'>";
+
     //Placing new row in cart with gathered information.
     var newRow = cartTable.insertRow(cartTable.rows.length);
     var productCol = newRow.insertCell(0);
@@ -144,6 +146,7 @@ function addToCart(row)
     quantityCol.innerHTML = quantity;
     priceCol.innerText = unitPrice;
    
+    updateTotal();
 }
 function addQty(row)
 {
@@ -171,9 +174,27 @@ function updateTotal()
     var table = document.getElementById("cart").rows;
     var tableLen = table.length;
 
-    if(tableLen > 1)
+    if(tableLen > 2)
     {
-        
+	var subtotal = 0;
+	var taxPercent = 0.08125;
+
+        for(i = 2; i < tableLen; ++i)
+	{
+	    var rowQty = parseInt(table[i].cells[2].innerText);
+	    var rowUP = parseFloat(table[i].cells[3].innerText);
+
+	    var rowTotal = parseFloat(rowQty * rowUP);
+            subtotal = subtotal + rowTotal;
+	}
+	var tax = subtotal * taxPercent;
+	var total = subtotal + tax;
+	
+	var totalTable = document.getElementById("totalTable");
+        totalTable.rows[1].cells[1].innerText = "$" + subtotal;
+	totalTable.rows[2].cells[1].innerText = "$" + tax;
+	totalTable.rows[3].cells[1].innerText = "$" + total;
+	
     }
 
 }
