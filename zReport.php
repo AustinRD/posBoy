@@ -32,6 +32,9 @@ if(isset($_POST['search'])){
 $valueToSearch=$_POST['valueToSearch'];
 $search_result3=mysqli_query($db, "SELECT * FROM Sale WHERE DOS LIKE '%$valueToSearch%'");
 }
+else{
+$search_result3=mysqli_query($db, "SELECT * FROM Sale");
+}
 ?>
 
 <html>
