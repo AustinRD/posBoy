@@ -12,17 +12,22 @@
 
   echo '<body>';
 
-  if($_SESSION['permission']==(1 || 3 || 4)){
+if((($_SESSION['permission'] == 1)||($_SESSION['permission'] == 3)||($_SESSION['permission'] == 4)))
+
+  {
     echo'<a href="customerSearch.php">Customer Search</a>
     <br>
     <br>';
   }
-  if($_SESSION['permission']==(3 || 4)){
+
+if((($_SESSION['permission'] == 3)||($_SESSION['permission'] == 4)))
+  {
     echo'<a href="employeeSearch.php">Employee Search</a>
     <br>
     <br>';
   }
-  if($_SESSION['permission']==(1 || 3 || 4)){
+if(!(($_SESSION['permission'] == 0)))
+  {
     echo'<a href="transQuery.php">Transaction Lookup</a>
     <br>
     <br>
@@ -35,7 +40,9 @@
         <br>
         </body>';
 
-	if($_SESSION['permission']==(3 || 4)){
+if((($_SESSION['permission'] == 3)||($_SESSION['permission'] == 4)))
+
+	{
     echo'
     <br>
     <br>

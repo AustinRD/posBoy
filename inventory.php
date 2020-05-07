@@ -44,7 +44,7 @@ $search_result=mysqli_query($db, "SELECT * FROM `Inventory`");
   echo $_SESSION["navbar"];
 
   echo '<body>';
-if($_SESSION['permission'] == (2 || 3 || 4)){
+if(($_SESSION['permission'] == 2)||($_SESSION['permission'] == 3)||($_SESSION['permission'] == 4)){
   echo'<a href="inventoryManage.php">Inventory Manager</a>';
 }
 ?>

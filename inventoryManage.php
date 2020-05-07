@@ -9,9 +9,10 @@
       header("Location: login.php");
   }
 
-  if($_SESSION['permission'] != (4 || 2)){
-  	header("Location: inventory.php");
-  }
+
+if(!(($_SESSION['permission'] == 2)||($_SESSION['permission'] == 3)||($_SESSION['permission'] == 4))){
+  header("Location: inventory.php");
+}
 
   echo $_SESSION["navbar"];
 
