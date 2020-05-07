@@ -130,7 +130,7 @@ function addToCart(row)
     var currentRow = document.getElementById("searchTable").rows[row].cells;
     var product = currentRow[0].innerText;
     var sku = currentRow[1].innerText;
-    var unitPrice = currentRow[2].innerText;
+    var unitPrice = parseFloat(currentRow[2].innerText).toFixed(2);
     var quantity = "<input type='button' onclick='addQty(" +  ++cartItems + ")' value='[ + ]'>1<input type='button' onclick='subQty(" + cartItems + ")' value='[ - ]'>";
 
     //Placing new row in cart with gathered information.
@@ -191,9 +191,9 @@ function updateTotal()
 	var total = subtotal + tax;
 	
 	var totalTable = document.getElementById("totalTable");
-        totalTable.rows[1].cells[1].innerText = "$" + subtotal;
-	totalTable.rows[2].cells[1].innerText = "$" + tax;
-	totalTable.rows[3].cells[1].innerText = "$" + total;
+        totalTable.rows[1].cells[1].innerText = "$" + subtotal.toFixed(2);
+	totalTable.rows[2].cells[1].innerText = "$" + tax.toFixed(2);
+	totalTable.rows[3].cells[1].innerText = "$" + total.toFixed(2);
 	
     }
 
