@@ -51,6 +51,7 @@ echo '<div style="display:table; width:100%; margin-top:1em; margin-bottom:1em;"
         <form method="post">
             <input type="text" name="product" placeholder="Product (Name or SKU)">
             <br>
+            <input type="hidden" name="cartState" id="cartState" value="">
 	    <input type="submit" name="search" value="Search">
         </form>
         </td>
@@ -86,6 +87,13 @@ if(isset($_POST['search']))
     else
     {
         echo "<tr><td>No Results Found</td></tr>";
+    }
+    if($_POST['cartState'] != "")
+    {    
+        $cartState = str_replace("\"", "\\\"", $_POST['cartState']);
+	$cartState = trim(preg_replace('/\s+/', " ", $cartState));
+        echo '<br>
+	    <script>document.getElementById("cart").innerHTML = "'. $cartState . '";</script>';
     }
 }
 
@@ -196,6 +204,23 @@ function updateTotal()
 	totalTable.rows[3].cells[1].innerText = "$" + total.toFixed(2);
 	
     }
+    document.getElementById("cartState").value = document.getElementById("cart").innerHTML;
+
+//    document.getElementById("hcustomer").value = ;
+//    document.getElementById("hsubtotal").value = ;
+//    document.getElementById("htax").value =;
+//    document.getElementById("htotal").value =;
+//    document.getElementById("hcart").value =;
+
+
+
+
+
+
+
+
+
+
 
 }
 </script>
