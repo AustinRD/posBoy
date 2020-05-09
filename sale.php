@@ -108,6 +108,11 @@ echo '</table>
     </div>
 
     <form method="post" style="margin-top:1em; float:right;">
+	<input type="hidden" id="hsubtotal" value="">
+	<input type="hidden" id="htax" value="">
+	<input type="hidden" id="htotal" value="">
+	<input type="hidden" id="hcart" value="">
+	<input type="submit" name="proceed" value="Proceed">
         <input type="submit" name="cancelCheckout" value="Cancel Checkout">
     </form>
     </body>';
@@ -120,7 +125,16 @@ if(isset($_POST['cancelCheckout']))
     $_SESSION['customer'] = null;
     header("Location: checkout.php");
 }
-
+if(isset($_POST['proceed']))
+{
+    $_SESSION['receipt'] = [
+	'Subtotal' => $_POST['hsubtotal'],
+	'Tax' => $_POST['htax'],
+	'Total' => $_POST['htotal'],
+	'Cart' => $_POST['hcart']
+    ];
+    header("Location: payment.php");
+}
 ?>
 
 </div>
@@ -206,12 +220,21 @@ function updateTotal()
     }
     document.getElementById("cartState").value = document.getElementById("cart").innerHTML;
 
-//    document.getElementById("hcustomer").value = ;
-//    document.getElementById("hsubtotal").value = ;
-//    document.getElementById("htax").value =;
-//    document.getElementById("htotal").value =;
-//    document.getElementById("hcart").value =;
-
+    document.getElementById("hsubtotal").value = document.getElementById("totalTable").rows[1].cells[1].innerText;
+    document.getElementById("htax").value = document.getElementById("totalTable").rows[2].cells[1].innerText;
+    document.getElementById("htotal").value = document.getElementById("totalTable").rows[3].cells[1].innerText;
+    
+    document.getElementById("hcart").value = "";
+    if(tableLen > 2)
+    {
+	for(i = 2; i < tableLen; ++i)
+	{
+	    for(j = 0; j <= 3; ++j)
+	    {
+	        document.getElementById("hcart").value = document.getElementById("hcart").value + table[i].cells[j].innerText + "|";
+	    }
+	}
+    }
 
 
 

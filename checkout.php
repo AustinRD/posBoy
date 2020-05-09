@@ -75,6 +75,7 @@ if(isset($_POST['create']))
 if(isset($_POST['skip']))
 {
     $_SESSION['customer'] = [
+	'Customer_ID' => 0,
         'First_Name' => "Guest",
         'Last_Name' => "Customer",
         'Email' => "store@store.com",
@@ -109,6 +110,7 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 	    {
 		echo "<tr><form method='post'>"
 		    . "<td><label>" . $row['First_Name'] . " " . $row['Last_Name'] . "</label></td>"
+			. "<input type='hidden' name='cid' value='" . $row['Customer_ID'] . "'>"
 		    	. "<input type='hidden' name='fname' value='" . $row['First_Name'] . "'>"
 		        . "<input type='hidden' name='lname' value='" . $row['Last_Name'] . "'>"
 		    . "<td>" . $row['Phone'] . "</td>"
@@ -137,6 +139,7 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
                     . "<td><label>" . $row['First_Name'] . " " . $row['Last_Name'] . "</label></td>"
                         . "<input type='hidden' name='fname' value='" . $row['First_Name'] . "'>"
                         . "<input type='hidden' name='lname' value='" . $row['Last_Name'] . "'>"
+			. "<input type='hidden' name='cid' value='" . $row['Customer_ID'] . "'>"
                     . "<td>" . $row['Phone'] . "</td>"
                         . "<input type='hidden' name='phone' value='" . $row['Phone'] . "'>"
                     . "<td>" . $row['Email'] . "</td>"
@@ -161,6 +164,7 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 	    {
 	        echo "<tr><form method='post'>"
                     . "<td><label>" . $row['First_Name'] . " " . $row['Last_Name'] . "</label></td>"
+			. "<input type='hidden' name='cid' value='" . $row['Customer_ID'] . "'>"
                         . "<input type='hidden' name='fname' value='" . $row['First_Name'] . "'>"
                         . "<input type='hidden' name='lname' value='" . $row['Last_Name'] . "'>"
                     . "<td>" . $row['Phone'] . "</td>"
@@ -180,6 +184,7 @@ if(isset($_POST['custSearch']) AND isset($_POST['searchMethod']))
 if(isset($_POST['select']))
 {
     $_SESSION['customer'] = [
+	'Customer_ID' => $_POST['cid'],
 	'First_Name' => $_POST['fname'],
 	'Last_Name' => $_POST['lname'],
 	'Email' => $_POST['email'],
