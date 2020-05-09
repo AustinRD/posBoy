@@ -8,6 +8,8 @@ require_once 'db.php';
 
 session_start();
 
+date_default_timezone_set("America/New_York");
+
 if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false){
     header("Location: login.php");
 }
@@ -30,8 +32,8 @@ echo '<body>
     <form method="post">
         <h3>[Cash]</h3>
 	<p>Amount due: ' . $receiptData['Total'] . '</p>
-        <input type="text" placeholder="Cash Tendered"><br>
-	<input type="button" onclick="finalize()" value="Finalize">
+        <input type="text" name="cashAmt" placeholder="Cash Amount"><br>
+	<input type="submit" name="finalize" value="Finalize">
 	<input type="button" onclick="closeForm(\'cash\')" value="Cancel">
     </form>
 </div>
@@ -44,7 +46,8 @@ echo '<body>
 	<input type="text" placeholder="Expiration" required><br>
         <input type="password" placeholder="CRN" required><br>
         <input type="text" placeholder="Name" required><br>
-	<input type="button" onclick="process()" value="Process">
+	<input type="hidden" name="cardType" value="credit">
+	<input type="submit" name="process" value="Process">
         <input type="button" onclick="closeForm(\'credit\')" value ="Cancel">
     </form>
 </div>
@@ -57,7 +60,8 @@ echo '<body>
 	<input type="text" placeholder="Expiration" required><br>
 	<input type="password" placeholder="CRN" required><br>
 	<input type="text" placeholder="Name" required><br>
-	<input type="button" onclick="process()" value="Process"> 
+	<input type="hidden" name="cardType" value="debit">
+	<input type="submit" name="process" value="Process"> 
         <input type="button" onclick="closeForm(\'debit\')" value ="Cancel">
     </form>
 </div>
@@ -66,6 +70,38 @@ echo '<body>
 if(isset($_POST['cancel']))
 {
     header("Location: checkout.php");
+}
+if(isset($_POST['finalize']))
+{
+    if(floatval($_POST['cashAmt']) < floatval(str_replace("$", "", $receiptData['Total'])))
+    {
+	echo "Cash given is less than amount due.";
+    }
+    else
+    {
+	$customerData = $_SESSION['customer'];
+	$changeDue = floatval($_POST['cashAmt']) - floatval(str_replace("$", "", $receiptData['Total']));
+	$_SESSION['receipt'] += array('PaymentType' => 'cash');
+	$_SESSION['receipt'] += array('ChangeDue' => $changeDue);
+	$_SESSION['receipt'] += array('CustomerID' => $customerData['Customer_ID']);
+	$_SESSION['receipt'] += array('EmployeeID' => $_SESSION['userid']);
+	$_SESSION['receipt'] += array('DOS' => date("Y-m-d"));	
+	print_r(array_keys($_SESSION['receipt']));
+	
+	#createReceipt($db, $_SESSION['receipt']);
+        #header("Location: receipt.php");
+    }
+}
+if(isset($_POST['process']))
+{
+    if($_POST['cardType'] == 'credit')
+    {
+	
+    }
+    else
+    {
+
+    }
 }
 ?>
 </div>

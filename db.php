@@ -124,4 +124,46 @@ function findProduct(mysqli $db, string $product)
 
     return $db->query($sql);
 }
+#Function used when a payment is successfully processed.
+function createReceipt(mysqli $db, array $receiptData)
+{
+    $sql = "INSERT INTO `Sale` ";
+    $sql.= "(`Customer_ID`, `EmployeeID`, `DOS`, `PaymentType`, `NumberOfItemsSold`, `TaxAmount`, `PreTax`, `TotalSaleAmount`) ";
+    $sql.= "VALUES ";
+    $sql.= "(";
+    $sql.= "'".$receiptData['CustomerID']."', ";
+    $sql.= "'".$receiptData['EmployeeID']."', ";
+    $sql.= "'".$receiptData['DOS']."', ";
+    $sql.= "'".$receiptData['PaymentType']."', ";
+    $sql.= "'".$receiptData['NumItems']."', ";
+    $sql.= "'".$receiptData['Tax']."', ";
+    $sql.= "'".$receiptData['Subtotal']."', ";
+    $sql.= "'".$receiptData['Total']."'";
+    $sql.= ");";
+
+    $db->query($sql);
+}
+function getTransIDforSale(mysqli $db, $receiptData)
+{
+    $sql = "SELECT * FROM `Sale` WHERE `Customer_ID` LIKE '";
+    $sql.= $receiptData['CustomerID'] . "' AND ";
+    $sql.= "`EmployeeID` LIKE '";
+    $sql.= $receiptData['EmployeeID'] . "' AND ";
+    $sql.= "`DOS` LIKE '";
+    $sql.= $receiptData['DOS'] . "'";
+
+    return $db->query($sql);
+}
+function saveSalesData(mysqli $db, array $receiptData)
+{
+    $sql = "INSERT INTO `SalesData` ";
+    $sql.= "(`SKU`, `TRANSID`) ";
+    $sql.= "VALUES ";
+    $sql.= "(";
+    $sql.= "'".$receiptData['']."', ";
+    $sql.= "'".$receiptData['']."'";
+    $sql.= ");";
+
+    $db->query($sql);
+}
 ?>

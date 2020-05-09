@@ -111,6 +111,7 @@ echo '</table>
 	<input type="hidden" name="hsubtotal" id="hsubtotal" value="">
 	<input type="hidden" name="htax" id="htax" value="">
 	<input type="hidden" name="htotal" id="htotal" value="">
+	<input type="hidden" name="hquantity" id="hquantity" value="">
 	<input type="hidden" name="hcart" id="hcart" value="">
 	<input type="submit" name="proceed" value="Proceed">
         <input type="submit" name="cancelCheckout" value="Cancel Checkout">
@@ -131,6 +132,7 @@ if(isset($_POST['proceed']))
 	'Subtotal' => $_POST['hsubtotal'],
 	'Tax' => $_POST['htax'],
 	'Total' => $_POST['htotal'],
+        'NumItems' => $_POST['hquantity'],
 	'Cart' => $_POST['hcart']
     ];
     header("Location: payment.php");
@@ -225,25 +227,18 @@ function updateTotal()
     document.getElementById("htotal").value = document.getElementById("totalTable").rows[3].cells[1].innerText;
     
     document.getElementById("hcart").value = "";
+    var quantity = 0;
     if(tableLen > 2)
     {
 	for(i = 2; i < tableLen; ++i)
 	{
+	    quantity = quantity + parseInt(table[i].cells[2].innerText);
 	    for(j = 0; j <= 3; ++j)
 	    {
 	        document.getElementById("hcart").value = document.getElementById("hcart").value + table[i].cells[j].innerText + "|";
 	    }
 	}
+	document.getElementById("hquantity").value = quantity;
     }
-
-
-
-
-
-
-
-
-
-
 }
 </script>
