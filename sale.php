@@ -108,10 +108,10 @@ echo '</table>
     </div>
 
     <form method="post" style="margin-top:1em; float:right;">
-	<input type="hidden" id="hsubtotal" value="">
-	<input type="hidden" id="htax" value="">
-	<input type="hidden" id="htotal" value="">
-	<input type="hidden" id="hcart" value="">
+	<input type="hidden" name="hsubtotal" id="hsubtotal" value="">
+	<input type="hidden" name="htax" id="htax" value="">
+	<input type="hidden" name="htotal" id="htotal" value="">
+	<input type="hidden" name="hcart" id="hcart" value="">
 	<input type="submit" name="proceed" value="Proceed">
         <input type="submit" name="cancelCheckout" value="Cancel Checkout">
     </form>
