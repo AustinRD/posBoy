@@ -73,6 +73,8 @@ if(isset($_POST['cancel']))
 }
 if(isset($_POST['finalize']))
 {
+    $db = connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+
     if(floatval($_POST['cashAmt']) < floatval(str_replace("$", "", $receiptData['Total'])))
     {
 	echo "Cash given is less than amount due.";
@@ -86,21 +88,40 @@ if(isset($_POST['finalize']))
 	$_SESSION['receipt'] += array('CustomerID' => $customerData['Customer_ID']);
 	$_SESSION['receipt'] += array('EmployeeID' => $_SESSION['userid']);
 	$_SESSION['receipt'] += array('DOS' => date("Y-m-d"));	
-	print_r(array_keys($_SESSION['receipt']));
-	
-	#createReceipt($db, $_SESSION['receipt']);
-        #header("Location: receipt.php");
+	createReceipt($db, $_SESSION['receipt']);
+	$result = mysqli_fetch_array(getTransIDforSale($db, $_SESSION['receipt']));
+	$_SESSION['receipt'] += array('TransID' => $result['TRANSID']);
+	saveSalesData($db, $_SESSION['receipt']);
+        header("Location: receipt.php");
     }
 }
 if(isset($_POST['process']))
 {
     if($_POST['cardType'] == 'credit')
     {
-	
+        $customerData = $_SESSION['customer'];
+        $_SESSION['receipt'] += array('PaymentType' => 'credit');
+        $_SESSION['receipt'] += array('CustomerID' => $customerData['Customer_ID']);
+        $_SESSION['receipt'] += array('EmployeeID' => $_SESSION['userid']);
+        $_SESSION['receipt'] += array('DOS' => date("Y-m-d"));
+        createReceipt($db, $_SESSION['receipt']);
+        $result = mysqli_fetch_array(getTransIDforSale($db, $_SESSION['receipt']));
+        $_SESSION['receipt'] += array('TransID' => $result['TRANSID']);
+        saveSalesData($db, $_SESSION['receipt']);
+        header("Location: receipt.php");
     }
     else
     {
-
+	$customerData = $_SESSION['customer'];
+        $_SESSION['receipt'] += array('PaymentType' => 'debit');
+        $_SESSION['receipt'] += array('CustomerID' => $customerData['Customer_ID']);
+        $_SESSION['receipt'] += array('EmployeeID' => $_SESSION['userid']);
+        $_SESSION['receipt'] += array('DOS' => date("Y-m-d"));
+        createReceipt($db, $_SESSION['receipt']);
+        $result = mysqli_fetch_array(getTransIDforSale($db, $_SESSION['receipt']));
+        $_SESSION['receipt'] += array('TransID' => $result['TRANSID']);
+        saveSalesData($db, $_SESSION['receipt']);
+        header("Location: receipt.php");
     }
 }
 ?>

@@ -1,17 +1,21 @@
 <?php
-
-
 require_once 'config.php';
 require_once 'db.php';
+
+session_start();
+
 $db = connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
 
 $search_result = "";
 $items = "";
 
-$temp = "'".$_POST['TRANSID']."'";
+$receiptData = $_SESSION['receipt'];
+
+
+$temp = "'".$receiptData['TransID']."'";
 $search_result = mysqli_query($db, "SELECT * FROM `Sale` WHERE `TRANSID` LIKE $temp");
 
-$temp = "'".$_POST['TRANSID']."'";
+$temp = "'".$receiptData['TransID']."'";
 $items = mysqli_query($db, "SELECT * FROM `SalesData` WHERE `TRANSID` LIKE $temp");
 
 ?>
@@ -38,7 +42,7 @@ $items = mysqli_query($db, "SELECT * FROM `SalesData` WHERE `TRANSID` LIKE $temp
         <?php while($newRow = mysqli_fetch_array($items)): ?>
         <?php echo $newRow['SKU'];
 
-        $items_temp = mysqli_query($db, "SELECT * FROM `Inventory` WHERE `SKU` LIKE `$newRow['SKU']`");
+        $items_temp = mysqli_query($db, "SELECT * FROM `Inventory` WHERE `SKU` LIKE '" . $newRow["SKU"] . "'");
         echo " ".$items_temp['ProductName']."    ".$items_temp['Price'];
 
         ?>
@@ -48,7 +52,12 @@ $items = mysqli_query($db, "SELECT * FROM `SalesData` WHERE `TRANSID` LIKE $temp
 <br>
         <?php echo "Tax: ".$row['TaxAmount'];?>
 <br>
-        <?php echo "Total: ".$row['TotalSaleAmount'];?>
+	<?php echo "Total: ".$row['TotalSaleAmount'];?>
+<br>
+	<?php if($row['PaymentType'] == "cash") {
+	    echo "Change Due: ".$receiptData['ChangeDue'];
+	    }?>
+
         <?php
         endif;
         ?>

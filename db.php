@@ -136,9 +136,9 @@ function createReceipt(mysqli $db, array $receiptData)
     $sql.= "'".$receiptData['DOS']."', ";
     $sql.= "'".$receiptData['PaymentType']."', ";
     $sql.= "'".$receiptData['NumItems']."', ";
-    $sql.= "'".$receiptData['Tax']."', ";
-    $sql.= "'".$receiptData['Subtotal']."', ";
-    $sql.= "'".$receiptData['Total']."'";
+    $sql.= "'".floatval(str_replace("$", "", $receiptData['Tax']))."', ";
+    $sql.= "'".floatval(str_replace("$", "", $receiptData['Subtotal']))."', ";
+    $sql.= "'".floatval(str_replace("$", "", $receiptData['Total']))."'";
     $sql.= ");";
 
     $db->query($sql);
@@ -156,14 +156,18 @@ function getTransIDforSale(mysqli $db, $receiptData)
 }
 function saveSalesData(mysqli $db, array $receiptData)
 {
-    $sql = "INSERT INTO `SalesData` ";
-    $sql.= "(`SKU`, `TRANSID`) ";
-    $sql.= "VALUES ";
-    $sql.= "(";
-    $sql.= "'".$receiptData['']."', ";
-    $sql.= "'".$receiptData['']."'";
-    $sql.= ");";
+    $cart = explode("|", $receiptData['Cart']);
+    for($i = 1; $i < count($cart); $i = $i + 4)
+    {
+	$sql = "INSERT INTO `SalesData` ";
+	$sql.= "(`SKU`, `TRANSID`) ";
+	$sql.= "VALUES ";
+	$sql.= "(";
+	$sql.= "'".$receiptData['TransID']."', ";
+	$sql.= "'".$cart[$i]."'";
+	$sql.= ");";
 
-    $db->query($sql);
+	$db->query($sql);
+    }
 }
 ?>
