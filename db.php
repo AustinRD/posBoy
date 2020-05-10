@@ -74,7 +74,8 @@ function createTimesheet(mysqli $db, array $record)
 
     $db->query($sql);
 }
-
+#Function for finding customer in database based on their name.
+#The "%" symbols allow us to find matching data containing the specified input.
 function findCustomerByName(mysqli $db, array $customerName)
 {  
     #If the user has only entered a first or last name.
@@ -98,7 +99,7 @@ function findCustomerByName(mysqli $db, array $customerName)
         return $db->query($sql);
     }
 }
-
+#Basic function for finding customers by email, input must be an exact match.
 function findCustomerByEmail(mysqli $db, string $email)
 {
     $sql = "SELECT * FROM `CustomerData` WHERE `Email` LIKE '";
@@ -106,7 +107,7 @@ function findCustomerByEmail(mysqli $db, string $email)
 
     return $db->query($sql);
 }
-
+#Basic function for finding customers by phone number, input must be an exact match.
 function findCustomerByPhone(mysqli $db, string $phone)
 {
     $sql = "SELECT * FROM `CustomerData` WHERE `Phone` LIKE '";
@@ -114,7 +115,7 @@ function findCustomerByPhone(mysqli $db, string $phone)
 
     return $db->query($sql);
 }
-#Function to find product at sale.
+#Function to find product at checkout (sale.php).
 function findProduct(mysqli $db, string $product)
 {
     $sql = "SELECT * FROM `Inventory` WHERE `ProductName` LIKE '%";
@@ -143,6 +144,7 @@ function createReceipt(mysqli $db, array $receiptData)
 
     $db->query($sql);
 }
+#Function used after a payment is successfully processed to get that transaction id.
 function getTransIDforSale(mysqli $db, $receiptData)
 {
     $sql = "SELECT * FROM `Sale` WHERE `Customer_ID` LIKE '";
@@ -154,20 +156,24 @@ function getTransIDforSale(mysqli $db, $receiptData)
 
     return $db->query($sql);
 }
+#Last function used after payment, matches transaction id with sku's to create a transaction history.
 function saveSalesData(mysqli $db, array $receiptData)
 {
+    #Grabs the cart data from passed array.
     $cart = explode("|", $receiptData['Cart']);
+
+    #Loops through the cart array grabbing only SKU's
     for($i = 1; $i < count($cart); $i = $i + 4)
     {
-	$sql = "INSERT INTO `SalesData` ";
-	$sql.= "(`SKU`, `TRANSID`) ";
-	$sql.= "VALUES ";
-	$sql.= "(";
-	$sql.= "'".$receiptData['TransID']."', ";
-	$sql.= "'".$cart[$i]."'";
-	$sql.= ");";
+	    $sql = "INSERT INTO `SalesData` ";
+	    $sql.= "(`SKU`, `TRANSID`) ";
+	    $sql.= "VALUES ";
+	    $sql.= "(";
+	    $sql.= "'".$receiptData['TransID']."', ";
+	    $sql.= "'".$cart[$i]."'";
+	    $sql.= ");";
 
-	$db->query($sql);
+	    $db->query($sql);
     }
 }
 ?>

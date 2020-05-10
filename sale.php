@@ -56,7 +56,8 @@ echo '<div style="display:table; width:100%; margin-top:1em; margin-bottom:1em;"
         </form>
         </td>
     </tr>';
-
+#When the user selects to search for an item, the list of items matching
+#the input is returned in a table.
 if(isset($_POST['search']))
 {
     $db = connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
@@ -91,12 +92,14 @@ if(isset($_POST['search']))
     if($_POST['cartState'] != "")
     {    
         $cartState = str_replace("\"", "\\\"", $_POST['cartState']);
-	$cartState = trim(preg_replace('/\s+/', " ", $cartState));
+	    $cartState = trim(preg_replace('/\s+/', " ", $cartState));
         echo '<br>
 	    <script>document.getElementById("cart").innerHTML = "'. $cartState . '";</script>';
     }
 }
 
+#The following code uses a hidden form that saves the information on the screen locally
+#This is done to avoid loss of data due to POST page refreshing.
 echo '</table>
 
     <table id="totalTable" style="margin-top:1em; width:25%; float:right;" border="1">
@@ -108,13 +111,13 @@ echo '</table>
     </div>
 
     <form method="post" style="margin-top:1em; float:right;">
-	<input type="hidden" name="hsubtotal" id="hsubtotal" value="">
-	<input type="hidden" name="htax" id="htax" value="">
-	<input type="hidden" name="htotal" id="htotal" value="">
-	<input type="hidden" name="hquantity" id="hquantity" value="">
-	<input type="hidden" name="hcart" id="hcart" value="">
+	    <input type="hidden" name="hsubtotal" id="hsubtotal" value="">
+	    <input type="hidden" name="htax" id="htax" value="">
+	    <input type="hidden" name="htotal" id="htotal" value="">
+	    <input type="hidden" name="hquantity" id="hquantity" value="">
+	    <input type="hidden" name="hcart" id="hcart" value="">
 	<input type="submit" name="proceed" value="Proceed">
-        <input type="submit" name="cancelCheckout" value="Cancel Checkout">
+    <input type="submit" name="cancelCheckout" value="Cancel Checkout">
     </form>
     </body>';
 
@@ -129,11 +132,11 @@ if(isset($_POST['cancelCheckout']))
 if(isset($_POST['proceed']))
 {
     $_SESSION['receipt'] = [
-	'Subtotal' => $_POST['hsubtotal'],
-	'Tax' => $_POST['htax'],
-	'Total' => $_POST['htotal'],
+	    'Subtotal' => $_POST['hsubtotal'],
+	    'Tax' => $_POST['htax'],
+	    'Total' => $_POST['htotal'],
         'NumItems' => $_POST['hquantity'],
-	'Cart' => $_POST['hcart']
+	    'Cart' => $_POST['hcart']
     ];
     header("Location: payment.php");
 }
@@ -169,9 +172,11 @@ function addToCart(row)
     skuCol.innerText = sku;
     quantityCol.innerHTML = quantity;
     priceCol.innerText = unitPrice;
-   
+    
+    //Updating price information since new item was added.
     updateTotal();
 }
+//When the user selects the '[+]' button to add quantity.
 function addQty(row)
 {
     var currentRow = document.getElementById("cart").rows[row].cells;
@@ -179,6 +184,7 @@ function addQty(row)
     currentRow[2].innerHTML = "<input type='button' onclick='addQty(" + row + ")' value='[ + ]'>" + ++currentQuantity + "<input type='button' onclick='subQty(" + row + ")' value='[ - ]'>";
     updateTotal();
 }
+//When the user selects the '[-]' button to subtract quantity.
 function subQty(row)
 {
     var currentRow = document.getElementById("cart").rows[row].cells;
@@ -188,8 +194,10 @@ function subQty(row)
         currentRow[2].innerHTML = "<input type='button' onclick='addQty(" + row + ")' value='[ + ]'>" + --currentQuantity + "<input type='button' onclick='subQty(" + row + ")' value='[ - ]'>";
         updateTotal();
     }
+    //When the current quantity of the selected item is less than 0 we remove it from the table.
     else
     {
+        //A better algorithm is needed for this to work properly.
         document.getElementById("cart").deleteRow(row);
     }
 }
@@ -200,45 +208,42 @@ function updateTotal()
 
     if(tableLen > 2)
     {
-	var subtotal = 0;
-	var taxPercent = 0.08125;
+	    var subtotal = 0;
+	    var taxPercent = 0.08125;
 
         for(i = 2; i < tableLen; ++i)
-	{
-	    var rowQty = parseInt(table[i].cells[2].innerText);
-	    var rowUP = parseFloat(table[i].cells[3].innerText);
+	    {
+	        var rowQty = parseInt(table[i].cells[2].innerText);
+	        var rowUP = parseFloat(table[i].cells[3].innerText);
 
-	    var rowTotal = parseFloat(rowQty * rowUP);
+	        var rowTotal = parseFloat(rowQty * rowUP);
             subtotal = subtotal + rowTotal;
-	}
-	var tax = subtotal * taxPercent;
-	var total = subtotal + tax;
-	
-	var totalTable = document.getElementById("totalTable");
+	    }
+        var tax = subtotal * taxPercent;
+        var total = subtotal + tax;
+        
+        var totalTable = document.getElementById("totalTable");
         totalTable.rows[1].cells[1].innerText = "$" + subtotal.toFixed(2);
-	totalTable.rows[2].cells[1].innerText = "$" + tax.toFixed(2);
-	totalTable.rows[3].cells[1].innerText = "$" + total.toFixed(2);
-	
+        totalTable.rows[2].cells[1].innerText = "$" + tax.toFixed(2);
+        totalTable.rows[3].cells[1].innerText = "$" + total.toFixed(2);
     }
     document.getElementById("cartState").value = document.getElementById("cart").innerHTML;
-
     document.getElementById("hsubtotal").value = document.getElementById("totalTable").rows[1].cells[1].innerText;
     document.getElementById("htax").value = document.getElementById("totalTable").rows[2].cells[1].innerText;
     document.getElementById("htotal").value = document.getElementById("totalTable").rows[3].cells[1].innerText;
-    
     document.getElementById("hcart").value = "";
     var quantity = 0;
     if(tableLen > 2)
     {
-	for(i = 2; i < tableLen; ++i)
-	{
-	    quantity = quantity + parseInt(table[i].cells[2].innerText);
-	    for(j = 0; j <= 3; ++j)
-	    {
-	        document.getElementById("hcart").value = document.getElementById("hcart").value + table[i].cells[j].innerText + "|";
-	    }
-	}
-	document.getElementById("hquantity").value = quantity;
+        for(i = 2; i < tableLen; ++i)
+        {
+            quantity = quantity + parseInt(table[i].cells[2].innerText);
+            for(j = 0; j <= 3; ++j)
+            {
+                document.getElementById("hcart").value = document.getElementById("hcart").value + table[i].cells[j].innerText + "|";
+            }
+        }
+        document.getElementById("hquantity").value = quantity;
     }
 }
 </script>

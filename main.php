@@ -18,28 +18,80 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false){
     header("Location: login.php");
 }
 
-#Displaying user id and sign-in status.
-echo '<h3>Welcome, Employee #' . $_SESSION["userid"] . '</h3>';
+#Displaying user-id and creating navbar based on user permission level.
+if($_SESSION['permission'] == 0)
+{
+    echo '<h3>Welcome back, #' . $_SESSION["userid"] . '</h3>';
+    #Creating a single navbar to be used across pages.
+    $_SESSION["navbar"] = '<nav>
+        <a href="main.php">Home</a> |
+        <a href="salesData.php">Data<a>
+    </nav>
+    <br>';
+}
+else if($_SESSION['permission'] == 1)
+{
+    echo '<h3>Welcome Employee, #' . $_SESSION["userid"] . '</h3>';
+    #Creating a single navbar to be used across pages.
+    $_SESSION["navbar"] = '<nav>
+        <a href="main.php">Home</a> |
+        <a href="inventory.php">Inventory</a> |
+        <a href="salesData.php">Data<a> |
+        <a href="checkout.php">Checkout</a>
+    </nav>
+    <br>';
+}
+else if($_SESSION['permission'] == 2)
+{
+    echo '<h3>Welcome Inventory Manager, #' . $_SESSION["userid"] . '</h3>';
+    #Creating a single navbar to be used across pages.
+    $_SESSION["navbar"] = '<nav>
+        <a href="main.php">Home</a> |
+        <a href="inventory.php">Inventory</a> |
+        <a href="salesData.php">Data<a>
+    </nav>
+    <br>';
+}
+else if($_SESSION['permission'] == 3)
+{
+    echo '<h3>Welcome Manager, #' . $_SESSION["userid"] . '</h3>';
+    #Creating a single navbar to be used across pages.
+    $_SESSION["navbar"] = '<nav>
+        <a href="main.php">Home</a> |
+        <a href="inventory.php">Inventory</a> |
+        <a href="salesData.php">Data<a> |
+        <a href="checkout.php">Checkout</a>
+    </nav>
+    <br>';
+}
+else if($_SESSION['permission'] == 4)
+{
+    echo '<h3>Welcome Administrator, #' . $_SESSION["userid"] . '</h3>';
+    #Creating a single navbar to be used across pages.
+    $_SESSION["navbar"] = '<nav>
+        <a href="main.php">Home</a> |
+        <a href="inventory.php">Inventory</a> |
+        <a href="salesData.php">Data<a> |
+        <a href="checkout.php">Checkout</a>
+    </nav>
+    <br>';
+}
 echo '<p>Successfully Logged In</p>';
-
-#Creating a single navbar to be used across pages.
-$_SESSION["navbar"] = '<nav>
-    <a href="main.php">Home</a> |
-    <a href="inventory.php">Inventory</a> |
-    <a href="salesData.php">Data<a> |
-    <a href="checkout.php">Checkout</a>
-</nav>
-<br>';
 
 #Printing the navbar followed by the body of this page.
 echo $_SESSION["navbar"];
-echo '<body>
+
+#If the user is an employee they may clock in or out.
+if($_SESSION['permission'] == (1 || 2 || 3 || 4))
+{
+    echo '<body>
       <form method="post">
             <input type="submit" name="clockin"  value="Clock-In">
             <input type="submit" name="clockout"  value="Clock-Out">
             <input type="button" onclick="location.href = \'logout.php\'" value="Logout">
       </form>
     </body>';
+}
 
 #Checking if the clockin button was pressed.
 #If the button was pressed we gather the information and
