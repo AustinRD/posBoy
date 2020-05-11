@@ -92,7 +92,12 @@ if($_SESSION['permission'] == (1 || 2 || 3 || 4))
       </form>
     </body>';
 }
-
+if($_SESSION['permission'] == 0)
+{
+    echo '<body>
+	<input type="button" onclick="location.href = \'logout.php\'" value="Logout">
+	</body>';
+}
 #Checking if the clockin button was pressed.
 #If the button was pressed we gather the information and
 #send it to our db function to add it to the TimesheetData table.

@@ -50,7 +50,7 @@ $totalDaySaleCash += $row['TotalSaleAmount'];
 }
 if(isset($_POST['search'])){
 $valueToSearch=$_POST['valueToSearch'];
-$search_result5=mysqli_query($db, "SELECT * FROM Sale WHERE DOS LIKE '%$valueToSearch%' AND PaymentType LIKE 'credit'");                                                while($row = mysqli_fetch_assoc($search_result4)){
+$search_result5=mysqli_query($db, "SELECT * FROM Sale WHERE DOS LIKE '%$valueToSearch%' AND PaymentType LIKE 'credit'");                                                while($row = mysqli_fetch_assoc($search_result5)){
 $totalDaySaleCredit += $row['TotalSaleAmount'];
 }
 }
